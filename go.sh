@@ -30,9 +30,13 @@ python3 -m jcc \
 
 
 # make pkg2 extension .so
+# We need --import to find the wrappers from pkg,
+# but we need --package for jcc to recognize the args types of f.
+# that leaves us with two different wrappers for class Wtf.
 python3 -m jcc \
         --shared \
         --import pkg1 \
+        --package pkg1 \
         --jar build/pkg2.jar \
         --python pkg2 \
         --build \

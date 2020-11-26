@@ -1,23 +1,14 @@
 
 import pkg1
-pkg1.initVM() # start VM with classpath of pkg1
+pkg1.initVM()
 
 import pkg2
-pkg2.initVM() # detects running VM and extends classpath
+pkg2.initVM()
 
 
 c = pkg1.Wtf()
-s = pkg2.MyWtf() # MyWtf extends Wtf
-
-
-# should be the same class (but it isn't)
-assert str(c.class_) == "class pkg1.Wtf"
-assert str(s.class_.getSuperclass()) == "class pkg1.Wtf"
-
-
-# so this fails
-assert c.class_ == s.class_.getSuperclass()
+s = pkg2.MyWtf()
 
 
 # should work, but it gives InvalidArgs
-s.wtf(c)
+s.f(c)

@@ -1,26 +1,23 @@
-from java import initVM as initVM_j
-from lucene import initVM as initVM_l
-from pkg1 import initVM as initVM_1, Wtf
-from pkg2 import initVM as initVM_2, MyWtf
 
-initVM_j()
-initVM_l()
-initVM_1()
-initVM_2()
+import pkg1
+pkg1.initVM() # start VM with classpath of pkg1
 
-c = Wtf()
-
-s = MyWtf()
+import pkg2
+pkg2.initVM() # detects running VM and extends classpath
 
 
-wtfSuper = c.class_.getSuperclass()
-
-from org.apache.lucene.search import TotalHitCountCollector
-thccSuper = TotalHitCountCollector.class_.getSuperclass()
-
-print(" is ", wtfSuper is thccSuper)
-print(" == ", wtfSuper == thccSuper)
-print(" id ", id(wtfSuper), id(thccSuper))
+c = pkg1.Wtf()
+s = pkg2.MyWtf() # MyWtf extends Wtf
 
 
-s.doit(c)
+# should be the same class (but it isn't)
+assert str(c.class_) == "class pkg1.Wtf"
+assert str(s.class_.getSuperclass()) == "class pkg1.Wtf"
+
+
+# so this fails
+assert c.class_ == s.class_.getSuperclass()
+
+
+# should work, but it gives InvalidArgs
+s.wtf(c)
